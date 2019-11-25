@@ -32,17 +32,18 @@ To avoid any copyright problem, I won't share the files here but only the featur
 ## Prepare data
 With only audio files, I also need to know when it is an ad or not.
 For that, I listened to my audio files and noted in a .csv when an ad starts or ends with the appropriate timestamp. Here is few lines of this file (you can look at the file TV_ad_flag.csv to see everything)
-| file_id | timestamp | pub |
-|--|--|--|
-| 1 | 0 | 0 |
-| 1 | 386 | 1 |
-| 1 | 763 | 0 |
-| 1 | 1349 | 1 |
-| 1 | 1512 | 0 |
-| 1 | 1571 | 1 |
-| 1 | 1643 | 0 |
-| 1 | 1702 | 1 |
-| 1 | 2003 | 0 |
+
+file_id | timestamp | pub
+--- | --- | ---
+1 | 0 | 0
+1 | 386 | 1
+1 | 763 | 0
+1 | 1349 | 1
+1 | 1512 | 0
+1 | 1571 | 1
+1 | 1643 | 0
+1 | 1702 | 1
+1 | 2003 | 0
 
 - **file_id** is an id to know which file is this line for (see the file TV_files.csv)
 - **timestamp** is the time in seconds since the beginning of the file
@@ -56,22 +57,23 @@ From the files I mentioned earlier, I did several actions:
 - I changed the "pub" variable to store the percentage of ads in the corresponding sequence. For example if the ad starts at 6 seconds in the sequence, the result is 0.4
 
 My data in Python now looks like this:
-| file_id | timestamp | pub | audioSequence |
-|--|--|--|--|
-| 1 | 0 | 0 |[-10;0]|
-| 1 | 1 | 0 |[-9;1]|
-| 1 | ... | ... |...|
-| 1 | 385 | 0 |[375;385]|
-| 1 | 386 | 0.1 |[376;386]|
-| 1 | 387 | 0.2 |[-377;387]|
-| 1 | 388 | 0.3 |[-378;388]|
-| 1 | ... | ... |...|
-| 1 | 761 | 1 |[751;761]|
-| 1 | 762 | 1 |[752;762]|
-| 1 | 763 | 0.9 |[753;763]|
-| 1 | 764 | 0.8 |[754;764]|
-| 1 | 765 | 0.7 |[755;765]|
-| 1 | ... | ... |...|
+
+file_id | timestamp | pub | audioSequence
+--- | --- | --- | ---
+1 | 0 | 0 | [-10:0]
+1 | 1 | 0 | [-9:1]
+... | ... | ... | ...
+1 | 385 | 0 | [375:385]
+1 | 386 | 0.1 | [376:386]
+1 | 387 | 0.2 | [-377:387]
+1 | 388 | 0.3 | [-378:388]
+... | ... | ... | ...
+1 | 761 | 1 | [751:761]
+1 | 762 | 1 | [752:762]
+1 | 763 | 0.9 | [753:763]
+1 | 764 | 0.8 | [754:764]
+1 | 765 | 0.7 | [755:765]
+... | ... | ... | ...
 
 ## Extract Features
 I'm using **librosa** to extract features from audio files.
@@ -81,22 +83,23 @@ My experiments with feature engineering never used audio files.
 - [Decibels](https://en.wikipedia.org/wiki/Decibel): I extract 10 Decibels features from each 10 seconds sequences. They represent the Decibel mean of each individual second.
 
 My final DataFrame looks like this:
-| file_id | timestamp | pub | mfcc_0 | ... | mfcc_80 | db_0 | ... | db_9 |
-|--|--|--|--|--|--|--|--|--|
-| 1 | 0 | 0 | -688.73 | ... | 5.85 | -100.00 | ... | -41.04 |
-| 1 | 1 | 0 | -611.98 | ... | 14.32 | -100.00 | ... | -45.47 |
-| 1 |...|...|...|...|...|...|...|...|
-| 1 | 385 | 0 | -342.31 | ... | 27.21 | -48.45 | ... | -57.12 |
-| 1 | 386 | 0.1 | -360.05 | ... | -15.32 | -43.71 | ... | -78.41 |
-| 1 | 387 | 0.2 | -364.44 | ... | -78.89 | -37.19 | ... | -87.56 |
-| 1 | 388 | 0.3 | -353.02 | ... | 1.15 | -39.78 | ... | -82.79 |
-| 1 | ... | ... |...|...|...|...|...|...|
-| 1 | 761 | 1 | -320.25 | ... | 12.12 | -87.45 | ... | -78.46 |
-| 1 | 762 | 1 | 14.87 | ... | 14.56 | -84.12 | ... | -75.46 |
-| 1 | 763 | 0.9 | 56.42 | ... | -15.27 | -81.49 | ... | -48.12 |
-| 1 | 764 | 0.8 | -158.88 | ... | -27.22 | -79.16 | ... | -49.97 |
-| 1 | 765 | 0.7 | -137.13 | ... | -4.47 | -81.16 | ... | -52.79 |
-| 1 | ... | ... |...|...|...|...|...|...|
+
+file_id | timestamp | pub | mfcc_0 | ... | mfcc_80 | db_0 | ... | db_9
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+1 | 0 | 0 | -688.73 | ... | 5.85 | -100.00 | ... | -41.04
+1 | 1 | 0 | -611.98 | ... | 14.32 | -100.00 | ... | -45.47
+... | ... | ... | ... | ... | ... | ... | ... | ...
+1 | 385 | 0 | -342.31 | ... | 27.21 | -48.45 | ... | -57.12
+1 | 386 | 0.1 | -360.05 | ... | -15.32 | -43.71 | ... | -78.41
+1 | 387 | 0.2 | -364.44 | ... | -78.89 | -37.19 | ... | -87.56
+1 | 388 | 0.3 | -353.02 | ... | 1.15 | -39.78 | ... | -82.79
+... | ... | ... | ... | ... | ... | ... | ... | ...
+1 | 761 | 1 | -320.25 | ... | 12.12 | -87.45 | ... | -78.46
+1 | 762 | 1 | 14.87 | ... | 14.56 | -84.12 | ... | -75.46
+1 | 763 | 0.9 | 56.42 | ... | -15.27 | -81.49 | ... | -48.12
+1 | 764 | 0.8 | -158.88 | ... | -27.22 | -79.16 | ... | -49.97
+1 | 765 | 0.7 | -137.13 | ... | -4.47 | -81.16 | ... | -52.79
+... | ... | ... | ... | ... | ... | ... | ... | ...
 
 Ideas of new features to try:
 - Between every TV ad, there is a little silence. I think I can work on a feature like Time Since Last Silence
@@ -122,21 +125,22 @@ You can see the results in the next section.
 The models in the next tables are detailed in models.py.
 - 92 624 rows with 21% ads.
 
-|\\|\|| accuracy | precision | recall | f1-score |
-|--|--|--|--|--|--|--|
-| model1 | \| | 93.19% | 81.04% | 89.40% | 85.01% |
-| model2 | \| | 95.33% | 88.94% | 89.50% | 89.22% |
-| model3 | \| | 94.96% | 86.35% | 91.07% | 88.65% |
-| model4 | \| | 85.24% | 75.36% | 47.57% | 58.35% |
+\\ | \| | accuracy | precision | recall | f1-score
+--- | --- | --- | --- | --- | ---
+model1 | \| | 93.19% | 81.04% | 89.40% | 85.01%
+model2 | \| | 95.33% | 88.94% | 89.50% | 89.22%
+model3 | \| | 94.96% | 86.35% | 91.07% | 88.65%
+model4 | \| | 85.24% | 75.36% | 47.57% | 58.35%
+
 ##
 - 41 506 rows with 47% ads.
 
-|\\|\|| accuracy | precision | recall | f1-score |
-|--|--|--|--|--|--|
-| model1 | \| | 95.70% | 98.26% | 92.50% | 95.29% |
-| model2 | \| | 98.53% | 98.28% | 98.60% | 98.44% |
-| model3 | \| | 98.37% | 97.95% | 98.60% | 98.27% |
-| model4 | \| | 82.92% | 83.26% | 79.66% | 81.42% |
+\\ | \| | accuracy | precision | recall | f1-score
+--- | --- | --- | --- | --- | ---
+model1 | \| | 95.70% | 98.26% | 92.50% | 95.29%
+model2 | \| | 98.53% | 98.28% | 98.60% | 98.44%
+model3 | \| | 98.37% | 97.95% | 98.60% | 98.27%
+model4 | \| | 82.92% | 83.26% | 79.66% | 81.42%
 
 ## Conclusion
 I picked the model with the biggest recall because the worst case is to lower the sound of the TV when it is not an ad. Because there is two models with the same recall, I will go with the **model2** because it has a better precision than the model3.
@@ -145,6 +149,6 @@ I picked the model with the biggest recall because the worst case is to lower th
 TODO
 
 ## Sources
-[1] https://medium.com/@mikesmales/sound-classification-using-deep-learning-8bc2aa1990b7
-[2] https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
-[3] https://medium.com/hugo-ferreiras-blog/confusion-matrix-and-other-metrics-in-machine-learning-894688cb1c0a
+1- https://medium.com/@mikesmales/sound-classification-using-deep-learning-8bc2aa1990b7
+2- https://machinelearningmastery.com/tutorial-first-neural-network-python-keras/
+3- https://medium.com/hugo-ferreiras-blog/confusion-matrix-and-other-metrics-in-machine-learning-894688cb1c0a
