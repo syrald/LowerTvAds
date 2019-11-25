@@ -20,7 +20,7 @@ def menu():
 
 if __name__ == "__main__":
 	print("The purpose of this program is to automatically lower the TV when an ad is played.")
-	print("https://github.com/syrald/LowerTvCommercials")
+	print("https://github.com/syrald/LowerTvAds")
 
 	print("Done:")
 	print("- A model is built from more than 10h of french TV")
